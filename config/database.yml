@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: adarsh
+  password: Ad@rsh0601
+  host: localhost
+
+development:
+  <<: *default
+  database: planora_database_development
+
+test:
+  <<: *default
+  database: planora_database_test
+
+production:
+  <<: *default
+  database: planora_database_production
+  username: adarsh
+  password: <%= ENV['PLANORA_DATABASE_PASSWORD'] %>
