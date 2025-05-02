@@ -2,7 +2,7 @@ module V1
     class Events < Grape::API
       version 'v1', using: :path
         
-        format :json
+      format :json
 
         
       helpers do
@@ -76,6 +76,26 @@ module V1
           event.destroy
           { message: 'Event deleted' }
         end
+
+
+        desc 'View all Users registered for an event (organiser only)'
+        params do
+          requires :id, type: Integer, desc: 'Event ID'
+        end
+
+        get ':id/registrations' do  
+        error!('Only organisers can view registrations', 403) unless current_user.organiser?
+        event = Event.find(params[:id])
+        error!('Event not found', 404) unless event
+        registrations = EventRegistration.where(event: event).includes(:user)
+        if registrations.empty?
+          { message: 'No registrations found for this event' }
+        else
+          users = registrations.map(&:user)
+          users.as_json(only: [:id, :name, :email, :address, :mobile_no])
+        end
+        end
+          
   
         desc 'Join an event (user only)'
         params do

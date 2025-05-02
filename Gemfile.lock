@@ -131,6 +131,8 @@ GEM
       mustermann-grape (~> 1.1.0)
       rack (>= 2)
       zeitwerk
+    grape_on_rails_routes (0.3.2)
+      rails (>= 3.1.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -305,6 +307,7 @@ DEPENDENCIES
   capybara
   debug
   grape
+  grape_on_rails_routes (~> 0.3.2)
   importmap-rails
   jbuilder
   jwt
