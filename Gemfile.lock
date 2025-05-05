@@ -131,6 +131,12 @@ GEM
       mustermann-grape (~> 1.1.0)
       rack (>= 2)
       zeitwerk
+    grape-swagger (2.1.2)
+      grape (>= 1.7, < 3.0)
+      rack-test (~> 2)
+    grape-swagger-rails (0.6.0)
+      ostruct
+      railties (>= 6.0.6.1)
     grape_on_rails_routes (0.3.2)
       rails (>= 3.1.1)
     i18n (1.14.7)
@@ -147,6 +153,7 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.11.3)
     jwt (2.10.1)
       base64
     logger (1.7.0)
@@ -194,6 +201,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    ostruct (0.6.1)
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
@@ -245,6 +253,10 @@ GEM
     rake (13.2.1)
     rdoc (6.13.1)
       psych (>= 4.0.0)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.24.0)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -258,6 +270,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (8.0.3)
+      connection_pool (>= 2.5.0)
+      json (>= 2.9.0)
+      logger (>= 1.6.2)
+      rack (>= 3.1.0)
+      redis-client (>= 0.23.2)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -307,6 +325,8 @@ DEPENDENCIES
   capybara
   debug
   grape
+  grape-swagger
+  grape-swagger-rails
   grape_on_rails_routes (~> 0.3.2)
   importmap-rails
   jbuilder
@@ -314,7 +334,9 @@ DEPENDENCIES
   pg (>= 1.1, < 2.0)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
+  redis
   selenium-webdriver
+  sidekiq
   sprockets-rails
   stimulus-rails
   turbo-rails

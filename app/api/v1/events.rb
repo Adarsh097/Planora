@@ -27,23 +27,32 @@ module V1
   
         desc 'Create an event (organiser only)'
         params do
-          requires :title, :date, type: String
+          requires :title, type: String
+          requires :date, type: String, desc: 'Date and time in ISO8601 format (e.g. 2025-05-05T16:30)'
           optional :description, type: String
         end
         post do
           error!('Only organisers can create events', 403) unless current_user.organiser?
-  
+        
+          begin
+            event_time = Time.zone.parse(params[:date]) # parses into IST if time zone is set
+          rescue ArgumentError
+            error!({ error: 'Invalid date format. Use ISO8601, e.g., 2025-05-05T16:30' }, 400)
+          end
+        
           event = current_user.events.build(
             title: params[:title],
             description: params[:description],
-            date: params[:date]
+            date: event_time
           )
+        
           if event.save
             event
           else
             error!({ error: event.errors.full_messages }, 400)
           end
         end
+        
   
         desc 'Update an event (organiser only)'
         params do
@@ -107,7 +116,13 @@ module V1
           event = Event.find(params[:id])
           registration = EventRegistration.new(user: current_user, event: event)
   
-          if registration.save
+       
+            if registration.save
+              
+              EventMailer.user_joined_event(current_user.id, event.id).deliver_now
+
+
+    
             { message: 'Successfully joined event' }
           else
             error!({ error: registration.errors.full_messages }, 400)
