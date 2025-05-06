@@ -1,8 +1,11 @@
+# require_relative '../../helpers/auth_helper'  # Adjust path if needed
 module V1
     class Events < Grape::API
       version 'v1', using: :path
         
       format :json
+
+      # helpers Helpers::AuthHelper
 
         
       helpers do
